@@ -73,7 +73,7 @@ namespace ClearMechanic.Api.Controllers
                 throw;
             }
 
-            return NoContent();
+            return Ok(updatedPayment);
         }
 
         // DELETE: api/payments/{id}

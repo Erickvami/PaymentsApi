@@ -78,7 +78,7 @@ namespace SparkTech.Data.Repositories {
 
             foreach (var include in includes) query = query.Include(include);
 
-            return await query.FirstOrDefaultAsync(entity => EF.Property<int>(entity, "Id") == id);
+            return await query.AsNoTracking().FirstOrDefaultAsync(entity => EF.Property<int>(entity, "Id") == id);
         }
 
         /// <summary>
@@ -132,18 +132,6 @@ namespace SparkTech.Data.Repositories {
         /// <returns></returns>
         public async Task UpdateAsync(T entity)
         {
-            var entry = context.Entry(entity);
-            // Iterate over the navigation properties (relationships) of the entity
-            foreach (var navigation in entry.Navigations)
-                // Check if the navigation property is a collection of related entities
-                if (navigation.CurrentValue is IEnumerable<object> relatedEntities)
-                    // Attach each related entity to the context if it already exists in the database
-                    foreach (var relatedEntity in relatedEntities)
-                        context.Attach(relatedEntity);
-                // If the navigation property is a single related entity, attach it to the context
-                else if (navigation.CurrentValue != null)
-                    context.Attach(navigation.CurrentValue);
-                    
             context.Set<T>().Update(entity);
             await context.SaveChangesAsync();
         }
