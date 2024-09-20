@@ -47,7 +47,7 @@ namespace SparkTech.Services
         {
             if (string.IsNullOrEmpty(payment.Reference)) throw new NullReferenceException("Invalid payment reference");
             if (payment == null) throw new NullReferenceException("Null Payment");
-            if (payment.Quality == 0) throw new Exception("Quantity can't be $0");
+            if (payment.Quantity == 0) throw new Exception("Quantity can't be $0");
         }
     }
 }
